@@ -1,0 +1,18 @@
+<launch>
+    <arg name="stateEstimationTopic" default="/integrated_to_init" />
+    <arg name="registeredScanTopic" default="/velodyne_cloud_registered" />
+    <arg name="flipStateEstimation" default="false" />
+    <arg name="flipRegisteredScan" default="true" />
+    <arg name="sendTF" default="true" />
+    <arg name="reverseTF" default="false" />
+
+  <node pkg="loam_interface" type="loamInterface" name="loamInterface" output="screen" required="true">
+    <param name="stateEstimationTopic" type="string" value="$(arg stateEstimationTopic)" />
+    <param name="registeredScanTopic" type="string" value="$(arg registeredScanTopic)" />
+    <param name="flipStateEstimation" type="bool" value="$(arg flipStateEstimation)" />
+    <param name="flipRegisteredScan" type="bool" value="$(arg flipRegisteredScan)" />
+    <param name="sendTF" type="bool" value="$(arg sendTF)" />
+    <param name="reverseTF" type="bool" value="$(arg reverseTF)" />
+  </node>
+
+</launch>
