@@ -485,6 +485,7 @@ int main(int argc, char **argv) {
 
       if (clearDyObs) {
         for (int i = 0; i < laserCloudCropSize; i++) {
+          //遍历剪裁后的点
           point = laserCloudCrop->points[i];
 
           int indX = int((point.x - vehicleX + planarVoxelSize / 2) /
@@ -558,6 +559,7 @@ int main(int argc, char **argv) {
       terrainCloudElev->clear();
       int terrainCloudElevSize = 0;
       for (int i = 0; i < terrainCloudSize; i++) {
+        //遍历terrainCloud中的点
         point = terrainCloud->points[i];
         // 检查点是否在视锥体内
         if (point.z - vehicleZ > minRelZ && point.z - vehicleZ < maxRelZ) {
