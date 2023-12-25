@@ -249,6 +249,7 @@ int main(int argc, char **argv) {
     terrainVoxelCloud[i].reset(new pcl::PointCloud<pcl::PointXYZI>());
   }
 
+  //降采样滤波器
   downSizeFilter.setLeafSize(scanVoxelSize, scanVoxelSize, scanVoxelSize);
 
   ros::Rate rate(100);
@@ -263,7 +264,8 @@ int main(int argc, char **argv) {
       float terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       float terrainVoxelCenY = terrainVoxelSize * terrainVoxelShiftY;
 
-      // 循环检查vehicleX和terrainVoxelCenX的差值，如果小于-terrainVoxelSize，则将terrainVoxelCloud的最后一列赋值给倒数第二列，并将最后一列清空
+
+      //根据车辆的位置动态地调整地形体素的存储，以确保车辆所在的地形体素位于地形体素数组的中心
       while (vehicleX - terrainVoxelCenX < -terrainVoxelSize) {
         for (int indY = 0; indY < terrainVoxelWidth; indY++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -280,7 +282,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       }
 
-      // 循环检查vehicleX和terrainVoxelCenX的差值，如果大于terrainVoxelSize，则将terrainVoxelCloud的第一列赋值给第二列，并将第一列清空
+      //根据车辆的位置动态地调整地形体素的存储，以确保车辆所在的地形体素位于地形体素数组的中心
       while (vehicleX - terrainVoxelCenX > terrainVoxelSize) {
         for (int indY = 0; indY < terrainVoxelWidth; indY++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -298,7 +300,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenX = terrainVoxelSize * terrainVoxelShiftX;
       }
 
-      // 循环检查vehicleY和terrainVoxelCenY的差值，如果小于-terrainVoxelSize，则将terrainVoxelCloud的最后一列赋值给倒数第二列，并将最后一列清空
+      //根据车辆的位置动态地调整地形体素的存储，以确保车辆所在的地形体素位于地形体素数组的中心
       while (vehicleY - terrainVoxelCenY < -terrainVoxelSize) {
         for (int indX = 0; indX < terrainVoxelWidth; indX++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -315,7 +317,7 @@ int main(int argc, char **argv) {
         terrainVoxelCenY = terrainVoxelSize * terrainVoxelShiftY;
       }
 
-      // 循环检查vehicleY和terrainVoxelCenY的差值，如果大于terrainVoxelSize，则将terrainVoxelCloud的第一列赋值给第二列，并将第一列清空
+      //根据车辆的位置动态地调整地形体素的存储，以确保车辆所在的地形体素位于地形体素数组的中心
       while (vehicleY - terrainVoxelCenY > terrainVoxelSize) {
         for (int indX = 0; indX < terrainVoxelWidth; indX++) {
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
@@ -336,6 +338,7 @@ int main(int argc, char **argv) {
       // stack registered laser scans
       pcl::PointXYZI point;
       int laserCloudCropSize = laserCloudCrop->points.size();
+      //遍历剪裁后的点云laserCloudCrop，激光点云数据分配到地形体素数组terrainVoxelCloud
       for (int i = 0; i < laserCloudCropSize; i++) {
         point = laserCloudCrop->points[i];
 
@@ -358,11 +361,20 @@ int main(int argc, char **argv) {
         }
       }
 
+      // 遍历地形体素数组terrainVoxelCloud，这里用于清理体素数组
       for (int ind = 0; ind < terrainVoxelNum; ind++) {
         if (terrainVoxelUpdateNum[ind] >= voxelPointUpdateThre ||
             laserCloudTime - systemInitTime - terrainVoxelUpdateTime[ind] >=
                 voxelTimeUpdateThre ||
             clearingCloud) {
+          /*
+          判断地形体素数组是否：
+          1.体素内的点数量超出阈值 voxelPointUpdateThre
+          或 2.距离上一次更新的时间超过阈值。
+          或 3.清理标志为true，即立刻清理
+
+          满足上述条件，则对于原来的体素数组进行重新采样
+          */
           pcl::PointCloud<pcl::PointXYZI>::Ptr terrainVoxelCloudPtr =
               terrainVoxelCloud[ind];
 
@@ -391,6 +403,7 @@ int main(int argc, char **argv) {
         }
       }
 
+      //地形体素中提取一部分体素，形成一个相对较小的地形点云 terrainCloud,即地形块
       terrainCloud->clear();
       for (int indX = terrainVoxelHalfWidth - 5;
            indX <= terrainVoxelHalfWidth + 5; indX++) {
@@ -401,7 +414,7 @@ int main(int argc, char **argv) {
       }
 
       // estimate ground and compute elevation for each point
-      // 估计地面并计算每个点云的高度
+      // 数组清零处理
       for (int i = 0; i < planarVoxelNum; i++) {
         planarVoxelElev[i] = 0;
         planarVoxelEdge[i] = 0;
@@ -409,6 +422,7 @@ int main(int argc, char **argv) {
         planarPointElev[i].clear();
       }
 
+      //遍历地形点云 terrainCloud,即地形块
       int terrainCloudSize = terrainCloud->points.size();
       for (int i = 0; i < terrainCloudSize; i++) {
         point = terrainCloud->points[i];
