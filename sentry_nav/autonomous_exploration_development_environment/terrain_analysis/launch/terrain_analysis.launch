@@ -12,7 +12,8 @@
 
     <!-- // 使用排序：     是 -->
     <param name="useSorting" type="bool" value="true" />
-    <!-- // Z轴分辩数：    0.25m -->
+    <!-- // z轴高度百分位：    这个参数的意义是在使用sort分配体素网格的高程时，
+    使用这个网格中点云高度排序后的百分之几作为这个网格的高度 default:0.25 -->
     <param name="quantileZ" type="double" value="0.25" />
     
     <!-- // 考虑下降：     否 -->

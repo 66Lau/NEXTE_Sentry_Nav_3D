@@ -530,6 +530,7 @@ int main(int argc, char **argv) {
       }
 
       if (useSorting) {
+        //使用排序的方法
         for (int i = 0; i < planarVoxelNum; i++) {
           int planarPointElevSize = planarPointElev[i].size();
           if (planarPointElevSize > 0) {
@@ -542,15 +543,19 @@ int main(int argc, char **argv) {
               quantileID = planarPointElevSize - 1;
 
             if (planarPointElev[i][quantileID] >
-                    planarPointElev[i][0] + maxGroundLift &&
-                limitGroundLift) {
-              planarVoxelElev[i] = planarPointElev[i][0] + maxGroundLift;
-            } else {
+                planarPointElev[i][0] + maxGroundLift &&
+                limitGroundLift) 
+                {
+                  //如果认为的百分比点云高度比最低点云高度高了超过一定距离，则以最低点云高度+一定距离作为该网格的高度
+                 planarVoxelElev[i] = planarPointElev[i][0] + maxGroundLift;
+                } 
+            else {
               planarVoxelElev[i] = planarPointElev[i][quantileID];
             }
           }
         }
       } else {
+        //不适用排序的方法，即最低的点云为该网格的高度
         for (int i = 0; i < planarVoxelNum; i++) {
           int planarPointElevSize = planarPointElev[i].size();
           if (planarPointElevSize > 0) {
