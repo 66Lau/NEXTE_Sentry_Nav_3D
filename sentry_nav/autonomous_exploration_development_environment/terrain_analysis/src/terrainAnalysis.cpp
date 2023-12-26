@@ -391,7 +391,7 @@ int main(int argc, char **argv) {
             if (point.z - vehicleZ > minRelZ - disRatioZ * dis &&
                 point.z - vehicleZ < maxRelZ + disRatioZ * dis &&
                 (laserCloudTime - systemInitTime - point.intensity <
-                     decayTime ||
+                     decayTime &&
                  dis < noDecayDis) &&
                 !(dis < clearingDis && clearingCloud)) {
               terrainVoxelCloudPtr->push_back(point);

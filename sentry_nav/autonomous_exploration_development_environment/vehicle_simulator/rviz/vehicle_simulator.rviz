@@ -4,7 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /TF1
+        - /Waypoint1
         - /TF1/Frames1
       Splitter Ratio: 0.729411780834198
     Tree Height: 505
@@ -230,7 +230,7 @@ Visualization Manager:
       History Length: 1
       Name: Waypoint
       Queue Size: 10
-      Radius: 0.30000001192092896
+      Radius: 0.10000000149011612
       Topic: /way_point
       Unreliable: false
       Value: true
@@ -457,7 +457,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.088161945343018
+      Distance: 4.878809928894043
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -465,17 +465,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 1.666732907295227
-        Y: 0.5027964115142822
-        Z: -1.396328330039978
+        X: 0.7685234546661377
+        Y: 0.17520999908447266
+        Z: -1.4889403581619263
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7397967576980591
+      Pitch: 1.5697963237762451
       Target Frame: vehicle
-      Yaw: 3.118590831756592
+      Yaw: 5.428586006164551
     Saved: ~
 Window Geometry:
   Displays:
