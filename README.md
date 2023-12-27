@@ -117,6 +117,10 @@ the terrain map is used by the collision avoidance module
   - geometry_msgs::TwistStamped: `/cmd_vel`
 
 
+## Q&A
+
+1.坡度过大是会被检测为障碍物，根据地形分析的原理，我们是将每个栅格内最低点作为地面点的，其余点相对于最低点的高度作为通过代价，坡度大的时候，单个栅格内最上面的点会比最下面的点高很多，超过可通过阈值obstacleHeightThre就会被认定为障碍物。暂时只能通过调节参数来解决，但是有可能导致正常地面可通过障碍物阈值过大，这一点需要你自己来权衡了。
+
 <!-- 
 ## bug recording
 
