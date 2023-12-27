@@ -18,6 +18,12 @@
 #include <message_filters/sync_policies/approximate_time.h>
 #include <message_filters/synchronizer.h>
 
+/*
+this code processes odometry and LiDAR point cloud data, 
+transforms the point cloud to a map frame, 
+and publishes the transformed point cloud, odometry information, and transforms. 
+*/
+
 using namespace std;
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr laserCloudIn(new pcl::PointCloud<pcl::PointXYZ>());

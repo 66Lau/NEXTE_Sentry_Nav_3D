@@ -29,14 +29,93 @@ Environment:
 
 ## In&out put
 
-### cmu base planner
+### local planner from CMU
 
-input :
+#### 1. loam_interface.launch
+It is the interface for using custom lidar, transfer your `odom` and `PointsClouds2` to local planner standard input
+
+- input :
+  - nav_msgs::Odometry: `~Odometry_topic (default: "/Odometry" for fast_lio)`
+  - sensor_msgs::PointCloud2: `~PointCloud2_topic (default: "/cloud_registered" for fast_lio)`
+
+
+- ouput ：
   - sensor_msgs::PointCloud2: `/registered_scan` 
   - nav_msgs::Odometry: `/state_estimation`
   - tf tree
 
-  TBD...
+#### 2. sensor_scan_generation.launch
+Transfer the PointCloud2 in `sensor` frame to 'map' frame
+
+- input :
+  - sensor_msgs::PointCloud2: `/registered_scan` 
+  - nav_msgs::Odometry: `/state_estimation`
+
+
+- ouput ：
+  - sensor_msgs::PointCloud2: `/sensor_scan`
+  - nav_msgs::Odometry: `/state_estimation_at_scan`
+  - tf tree
+
+#### 3. terrain_analysis.launch
+analyzes the local smoothness of the terrain and associates a cost to each point on the terrain map
+
+the terrain map is used by the collision avoidance module
+
+- input :
+  - sensor_msgs::PointCloud2: `/registered_scan` 
+  - nav_msgs::Odometry: `/state_estimation`
+  - tf tree
+  - sensor_msgs::Joy: `/joy`
+  - std_msgs::Float32: `/map_clearing`
+
+- output : 
+  - sensor_msgs::PointCloud2: `/terrain_map`
+
+#### 4. terrain_analysis_ext.launch
+ the 'terrain_analysis_ext' package extends the terrain map to a 40m x 40m area. The extended terrain map keeps lidar points over a sliding window of 10 seconds with a non-decay region within 4m from the vehicle
+
+ extended terrain map is to be used by a high-level planning module
+
+- input :
+  - sensor_msgs::PointCloud2: `/registered_scan` 
+  - sensor_msgs::PointCloud2: `/terrain_map`
+  - nav_msgs::Odometry: `/state_estimation`
+  - tf tree
+  - sensor_msgs::Joy: `/joy`
+  - std_msgs::Float32: `/map_clearing`
+
+- output : 
+  - sensor_msgs::PointCloud2: `/terrain_map_ext`
+
+
+#### 5. local_planner.launch/localPlanner
+- input :
+  - sensor_msgs::PointCloud2: `/registered_scan` 
+  - sensor_msgs::PointCloud2: `/terrain_map`
+  - nav_msgs::Odometry: `/state_estimation`
+  - tf tree
+  - sensor_msgs::Joy: `/joy`
+  - std_msgs::Float32: `/map_clearing`
+  - geometry_msgs::PointStamped: `/way_point`
+  - std_msgs::Float32: `/speed`
+  - geometry_msgs::PolygonStamped: `/navigation_boundary`
+  - sensor_msgs::PointCloud2: `/added_obstacles`
+  - std_msgs::Bool: `/check_obstacle`
+
+- output : 
+  - nav_msgs::Path: `/path`
+
+#### 5. local_planner.launch/pathFollower
+- input :
+  - nav_msgs::Path: `/path`
+  - sensor_msgs::Joy: `/joy`
+  - std_msgs::Float32: `/speed`
+  - std_msgs::int8: `/speed`
+  - nav_msgs::Odometry: `/state_estimation`
+- output:
+  - geometry_msgs::TwistStamped: `/cmd_vel`
+
 
 <!-- 
 ## bug recording
