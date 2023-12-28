@@ -90,6 +90,7 @@ the terrain map is used by the collision avoidance module
 
 
 #### 5. local_planner.launch/localPlanner
+Generate local path
 - input :
   - sensor_msgs::PointCloud2: `/registered_scan` 
   - sensor_msgs::PointCloud2: `/terrain_map`
@@ -107,6 +108,7 @@ the terrain map is used by the collision avoidance module
   - nav_msgs::Path: `/path`
 
 #### 5. local_planner.launch/pathFollower
+Follow the local path, generate desired velocity
 - input :
   - nav_msgs::Path: `/path`
   - sensor_msgs::Joy: `/joy`
