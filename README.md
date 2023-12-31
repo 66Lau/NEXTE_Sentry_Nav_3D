@@ -123,6 +123,8 @@ Follow the local path, generate desired velocity
 
 1.坡度过大是会被检测为障碍物，根据地形分析的原理，我们是将每个栅格内最低点作为地面点的，其余点相对于最低点的高度作为通过代价，坡度大的时候，单个栅格内最上面的点会比最下面的点高很多，超过可通过阈值obstacleHeightThre就会被认定为障碍物。暂时只能通过调节参数来解决，但是有可能导致正常地面可通过障碍物阈值过大，这一点需要你自己来权衡了。
 
+2.如何判断地形分析和local_planner的设置是否正确，在rviz中选中select，然后框选想看的点云，查看intensity是否符合真实情况
+
 <!-- 
 ## bug recording
 
@@ -130,6 +132,7 @@ Follow the local path, generate desired velocity
 problem: When some dynamic obstacles passing by, there are some pointclouds would be saved and can not be automatically clear.
 
 -  在清理体素数组时，有一个判断条件是(laserCloudTime - systemInitTime - point.intensity <decayTime || dis < noDecayDis)我觉得这里的或应该改成和
+
 
 
 -->

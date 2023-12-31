@@ -754,6 +754,7 @@ int main(int argc, char** argv)
                   if (h > obstacleHeightThre || !useTerrainAnalysis) {
                     clearPathList[pathNum * rotDir + correspondences[ind][j]]++;
                   } else {
+                    //h是此体素地格内，该点相对于认为的地面点的高度差
                     if (pathPenaltyList[pathNum * rotDir + correspondences[ind][j]] < h && h > groundHeightThre) {
                       pathPenaltyList[pathNum * rotDir + correspondences[ind][j]] = h;
                     }
