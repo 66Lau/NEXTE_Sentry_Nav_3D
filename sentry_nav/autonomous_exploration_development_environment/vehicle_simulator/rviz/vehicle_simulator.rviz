@@ -453,11 +453,12 @@ Visualization Manager:
       Topic: waypoint
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
+    - Class: rviz/Select
   Value: true
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.878809928894043
+      Distance: 2.7936387062072754
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -465,9 +466,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.7685234546661377
-        Y: 0.17520999908447266
-        Z: -1.4889403581619263
+        X: 1.3049347400665283
+        Y: -0.3199249804019928
+        Z: -1.553645372390747
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -475,7 +476,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: vehicle
-      Yaw: 5.428586006164551
+      Yaw: 3.4085853099823
     Saved: ~
 Window Geometry:
   Displays:

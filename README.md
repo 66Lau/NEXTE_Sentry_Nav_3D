@@ -125,6 +125,7 @@ Follow the local path, generate desired velocity
 
 2.如何判断地形分析和local_planner的设置是否正确，在rviz中选中select，然后框选想看的点云，查看intensity是否符合真实情况
 
+3.使用不同雷达时，local_planner.launch中的pointPerPathThre非常重要，要根据自己雷达的点云密度进行修改，密度越大，这个值要适当增大
 <!-- 
 ## bug recording
 

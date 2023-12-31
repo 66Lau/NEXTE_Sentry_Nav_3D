@@ -38,7 +38,7 @@
     <param name="costScore" type="double" value="0.02" />
     <param name="useCost" type="bool" value="false" />
     <!-- 在路径中，如果经过的体素格中超过障碍物高度阈值的点云数超过pointPerPathThre个，则删除此路径 -->
-    <param name="pointPerPathThre" type="int" value="2" />
+    <param name="pointPerPathThre" type="int" value="20" />
     <param name="minRelZ" type="double" value="-0.5" />
     <param name="maxRelZ" type="double" value="0.25" />
     <param name="maxSpeed" value="$(arg maxSpeed)" />
