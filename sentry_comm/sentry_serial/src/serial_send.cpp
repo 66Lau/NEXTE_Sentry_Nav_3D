@@ -4,26 +4,23 @@
 
 #include <sstream>  
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistStamped.h>
 #include <string>
 #include <iostream>
 
 // 接收到订阅的消息后，会进入消息回调函数
-void callback(const geometry_msgs::Twist& cmd_vel)
+void callback(const geometry_msgs::TwistStamped& cmd_vel)
 {
     // receive the msg from cmd_vel
     ROS_INFO("Receive a /cmd_vel msg\n");
-    ROS_INFO("The linear  velocity: x=%f, y=%f, z=%f\n",cmd_vel.linear.x,cmd_vel.linear.y,cmd_vel.linear.z);
-    ROS_INFO("The augular velocity: roll=%f, pitch=%f, yaw=%f\n",cmd_vel.angular.x, cmd_vel.angular.y, cmd_vel.angular.z);
+    ROS_INFO("The linear  velocity: x=%f, y=%f, z=%f\n",cmd_vel.twist.linear.x,cmd_vel.twist.linear.y,cmd_vel.twist.linear.z);
+    ROS_INFO("The augular velocity: roll=%f, pitch=%f, yaw=%f\n",cmd_vel.twist.angular.x, cmd_vel.twist.angular.y, cmd_vel.twist.angular.z);
     // put the data in union
     Serial_Package serial_package;
     serial_package.header = 0xA5;
-    serial_package.linear_x = cmd_vel.linear.x;
-    serial_package.linear_y = cmd_vel.linear.y;
-    serial_package.linear_z = cmd_vel.linear.z;
-
-    serial_package.angular_y = cmd_vel.angular.z;
-    serial_package.angular_z = cmd_vel.angular.x;
-    serial_package.angular_x = cmd_vel.angular.y;
+    serial_package.linear_x = cmd_vel.twist.linear.x;
+    serial_package.linear_y = cmd_vel.twist.linear.y;
+    serial_package.angular_z = cmd_vel.twist.angular.z;
 
     sentry_ser.flush ();
     sentry_ser.write(serial_package.Send_Buffer,data_len);
@@ -50,7 +47,7 @@ int main (int argc, char** argv){
         }
         std::cout<<serial_port<<std::endl;
         sentry_ser.setPort(serial_port);
-        sentry_ser.setBaudrate(9600);
+        sentry_ser.setBaudrate(115200);
         serial::Timeout to = serial::Timeout::simpleTimeout(1000);
         sentry_ser.setTimeout(to);
         sentry_ser.open();

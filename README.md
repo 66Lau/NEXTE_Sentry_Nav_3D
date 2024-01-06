@@ -118,6 +118,14 @@ Follow the local path, generate desired velocity
 - output:
   - geometry_msgs::TwistStamped: `/cmd_vel`
 
+## Usage
+```SHELL
+roslaunch livox_ros_driver2 msg_MID360.launch
+roslaunch fast_lio mapping_mid360.launch 
+roslaunch vehicle_simulator system_real_robot.launch 
+roslaunch sentry_serial sentry_serial.launch
+```
+
 
 ## Q&A
 
