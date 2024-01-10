@@ -20,7 +20,7 @@ void callback(const geometry_msgs::TwistStamped& cmd_vel)
     serial_package.header = 0xA5;
     serial_package.linear_x = cmd_vel.twist.linear.x;
     serial_package.linear_y = cmd_vel.twist.linear.y;
-    serial_package.angular_z = cmd_vel.twist.angular.z;
+    serial_package.angular_z = -cmd_vel.twist.angular.z*0.4;
 
     sentry_ser.flush ();
     sentry_ser.write(serial_package.Send_Buffer,data_len);
