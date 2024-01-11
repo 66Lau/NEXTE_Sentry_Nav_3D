@@ -18,8 +18,8 @@ void callback(const geometry_msgs::TwistStamped& cmd_vel)
     // put the data in union
     Serial_Package serial_package;
     serial_package.header = 0xA5;
-    serial_package.linear_x = cmd_vel.twist.linear.x;
-    serial_package.linear_y = cmd_vel.twist.linear.y;
+    serial_package.linear_x = cmd_vel.twist.linear.x*0.5;
+    serial_package.linear_y = cmd_vel.twist.linear.y*0.5;
     serial_package.angular_z = -cmd_vel.twist.angular.z*0.4;
 
     sentry_ser.flush ();
